@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: User types a note into the text field
+    Note right of browser: User clicks "Save"
+
+    Note right of browser: SPA JavaScript prevents default form submit
+    Note right of browser: SPA creates a new note object (content + date)
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa\nContent-Type: application/json\nBody: { "content": "<user text>", "date": "<timestamp>" }
+    activate server
+    Note right of server: Server stores the new note
+    server-->>browser: 201 Created (or 200 OK)\nResponse: {"message":"note created"}
+    deactivate server
+
+    Note right of browser: SPA updates UI locally (re-renders notes list)\nwithout reloading the page
