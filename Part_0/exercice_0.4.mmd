@@ -1,0 +1,38 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: User types a note into the text field
+    Note right of browser: User clicks "Save" (form submit)
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note\nForm data: note=<user text>
+    activate server
+    Note right of server: Server stores the new note (e.g., in memory)
+    server-->>browser: 302 Redirect (Location: /exampleapp/notes)
+    deactivate server
+
+    Note right of browser: Browser follows the redirect and reloads the Notes page
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: JavaScript file
+    deactivate server
+
+    Note right of browser: Browser executes JS, which fetches the updated notes list
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: JSON including the newly added note
+    deactivate server
+
+    Note right of browser: Browser renders the notes (now showing the new note)
