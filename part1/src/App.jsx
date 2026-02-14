@@ -5,20 +5,20 @@ const Part = ({ part, exercises }) => (
   </p>
 );
 
-const Content = ({ data1, data2, data3 }) => {
+const Content = ({ data }) => {
   return (
     <div>
-      <Part part={data1.name} exercises={data1.exercises} />
-      <Part part={data2.name} exercises={data2.exercises} />
-      <Part part={data3.name} exercises={data3.exercises} />
+      <Part part={data[0].name} exercises={data[0].exercises} />
+      <Part part={data[1].name} exercises={data[1].exercises} />
+      <Part part={data[2].name} exercises={data[2].exercises} />
     </div>
   );
 };
-const Total = ({ exercises }) => (
+const Total = ({ data }) => (
   <p>
     Number of exercises{" "}
-    {exercises.reduce((acc, elt) => {
-      acc += elt;
+    {data.reduce((acc, elt) => {
+      acc += elt.exercises;
       return acc;
     }, 0)}
   </p>
@@ -44,10 +44,8 @@ const App = () => {
   return (
     <div>
       <Header course={course} />
-      <Content data1={parts[0]} data2={parts[1]} data3={parts[2]} />
-      <Total
-        exercises={[parts[0].exercises, parts[1].exercises, parts[2].exercises]}
-      />
+      <Content data={parts} />
+      <Total data={parts} />
     </div>
   );
 };
